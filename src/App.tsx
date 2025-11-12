@@ -25,7 +25,8 @@ const App = () => (
   <QueryClientProvider client={queryClient}>
     <TooltipProvider>
       <AuthProvider>
-        <CartProvider>
+        <AdminProvider>
+          <CartProvider>
           <BrowserRouter>
             <div className="flex flex-col min-h-screen">
               <Header />
