@@ -28,9 +28,15 @@ const Login = () => {
   const handleGoogleLogin = async () => {
     try {
       await signInWithGoogle();
-      toast({ title: 'Google OAuth integration needed', description: 'Configure OAuth provider to enable this feature' });
+      toast({ title: 'Logged in successfully with Google' });
+      navigate('/');
     } catch (error) {
-      toast({ title: 'Google login failed', variant: 'destructive' });
+      const errorMessage = error instanceof Error ? error.message : 'Google login failed';
+      toast({
+        title: 'Google login failed',
+        description: errorMessage,
+        variant: 'destructive'
+      });
     }
   };
 
