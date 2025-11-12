@@ -4,7 +4,7 @@ import { Input } from "@/components/ui/input";
 import ProductCard from "@/components/ProductCard";
 import { products } from "@/lib/products";
 import { toast } from "sonner";
-import heroBanner from "@/assets/hero-banner-halloween.png";
+import heroBanner from "@/assets/Etsy_Banner_Autumn-cozyfix.png";
 
 export default function Index() {
   const featuredProducts = products.filter(p => p.featured);
@@ -21,20 +21,20 @@ export default function Index() {
   return (
     <div>
       {/* Hero Section */}
-      <section className="relative h-[500px] md:h-[600px] overflow-hidden">
+      <section className="relative h-[400px] md:h-[500px] overflow-hidden">
         <img 
           src={heroBanner}
           alt="TheNunuJournals handmade planner stickers collection"
           className="absolute inset-0 w-full h-full object-cover"
         />
-        <div className="absolute inset-0 bg-gradient-to-r from-background/90 to-background/40" />
+        <div className="absolute inset-0 bg-gradient-to-r from-black/70 to-background/40" />
         
         <div className="container relative h-full flex items-center">
           <div className="max-w-xl space-y-6">
-            <h1 className="text-4xl md:text-6xl font-display font-bold text-balance">
+            <h1 className="text-4xl md:text-6xl font-display font-bold text-balance text-white">
               Stickers that make your planner feel like home ✨
             </h1>
-            <p className="text-lg md:text-xl text-muted-foreground">
+            <p className="text-lg md:text-xl text-white/90">
               Handmade, functional & Field-Notes friendly — stickers and planner kits to brighten every page.
             </p>
             <div className="flex flex-wrap gap-4">
