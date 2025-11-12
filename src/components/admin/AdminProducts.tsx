@@ -6,9 +6,11 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
 import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
-import { Plus, Edit, Trash2, Upload } from 'lucide-react';
+import { Plus, Edit, Trash2 } from 'lucide-react';
 import { products } from '@/lib/products';
 import { useToast } from '@/hooks/use-toast';
+import { useAdmin } from '@/lib/admin-context';
+import { Product } from '@/lib/products';
 
 const AdminProducts = () => {
   const [searchTerm, setSearchTerm] = useState('');
