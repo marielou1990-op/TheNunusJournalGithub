@@ -63,7 +63,7 @@ const AdminProducts = () => {
             <CardTitle>Products</CardTitle>
             <CardDescription>Manage your product catalog</CardDescription>
           </div>
-          <Dialog>
+          <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
             <DialogTrigger asChild>
               <Button>
                 <Plus className="w-4 h-4 mr-2" />
@@ -74,50 +74,50 @@ const AdminProducts = () => {
               <DialogHeader>
                 <DialogTitle>Add New Product</DialogTitle>
               </DialogHeader>
-              <div className="space-y-4">
+              <form onSubmit={(e) => {
+                e.preventDefault();
+                const formData = new FormData(e.currentTarget);
+                handleAddProduct(formData);
+              }} className="space-y-4">
                 <div className="grid grid-cols-2 gap-4">
                   <div className="space-y-2">
-                    <Label>Title</Label>
-                    <Input placeholder="Product title" />
+                    <Label htmlFor="title">Title</Label>
+                    <Input id="title" name="title" placeholder="Product title" required />
                   </div>
                   <div className="space-y-2">
-                    <Label>SKU</Label>
-                    <Input placeholder="PROD-001" />
+                    <Label htmlFor="sku">SKU</Label>
+                    <Input id="sku" name="sku" placeholder="PROD-001" required />
                   </div>
                 </div>
                 <div className="space-y-2">
-                  <Label>Description</Label>
-                  <Textarea placeholder="Product description" rows={4} />
+                  <Label htmlFor="description">Description</Label>
+                  <Textarea id="description" name="description" placeholder="Product description" rows={4} required />
                 </div>
                 <div className="grid grid-cols-2 gap-4">
                   <div className="space-y-2">
-                    <Label>Price (EUR)</Label>
-                    <Input type="number" step="0.01" placeholder="9.99" />
+                    <Label htmlFor="price">Price (EUR)</Label>
+                    <Input id="price" name="price" type="number" step="0.01" placeholder="9.99" required />
                   </div>
                   <div className="space-y-2">
-                    <Label>Stock Quantity</Label>
-                    <Input type="number" placeholder="100" />
+                    <Label htmlFor="stock">Stock Quantity</Label>
+                    <Input id="stock" name="stock" type="number" placeholder="100" defaultValue="100" required />
                   </div>
-                </div>
-                <div className="space-y-2">
-                  <Label>Images</Label>
-                  <Button variant="outline" className="w-full">
-                    <Upload className="w-4 h-4 mr-2" />
-                    Upload Images
-                  </Button>
                 </div>
                 <div className="grid grid-cols-2 gap-4">
                   <div className="space-y-2">
-                    <Label>Weight (g)</Label>
-                    <Input type="number" placeholder="50" />
+                    <Label htmlFor="weight">Weight (g)</Label>
+                    <Input id="weight" name="weight" type="number" placeholder="50" />
                   </div>
                   <div className="space-y-2">
-                    <Label>Shipping Class</Label>
-                    <Input placeholder="standard" />
+                    <Label htmlFor="shipping">Shipping Class</Label>
+                    <Input id="shipping" name="shipping" placeholder="standard" />
                   </div>
                 </div>
-                <Button className="w-full">Create Product</Button>
-              </div>
+                <div className="flex gap-2">
+                  <Button type="submit" className="flex-1">Create Product</Button>
+                  <Button type="button" variant="outline" onClick={() => setIsDialogOpen(false)}>Cancel</Button>
+                </div>
+              </form>
             </DialogContent>
           </Dialog>
         </div>
