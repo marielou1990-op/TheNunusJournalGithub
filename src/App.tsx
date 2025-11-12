@@ -49,7 +49,8 @@ const App = () => (
             <Toaster />
             <Sonner />
           </BrowserRouter>
-        </CartProvider>
+          </CartProvider>
+        </AdminProvider>
       </AuthProvider>
     </TooltipProvider>
   </QueryClientProvider>
