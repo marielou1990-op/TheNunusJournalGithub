@@ -27,15 +27,15 @@ export default function Index() {
           alt="TheNunuJournals handmade planner stickers collection"
           className="absolute inset-0 w-full h-full object-cover"
         />
-        <div className="absolute inset-0 bg-gradient-to-r from-black/70 to-background/40" />
+        <div className="absolute inset-0 bg-gradient-to-r from-black/60 to-background/40" />
         
         <div className="container relative h-full flex items-center">
           <div className="max-w-xl space-y-6">
             <h1 className="text-4xl md:text-6xl font-display font-bold text-balance text-white">
-              Stickers that make your planner feel like home ✨
+              Stickers that make your planner <br /> feel like home
             </h1>
             <p className="text-lg md:text-xl text-white/90">
-              Handmade, functional & Field-Notes friendly — stickers and planner kits to brighten every page.
+              Handmade, functional & Field-Notes friendly <br /> stickers and planner kits to brighten every page.
             </p>
             <div className="flex flex-wrap gap-4">
               <Link to="/shop">
