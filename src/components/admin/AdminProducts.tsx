@@ -14,12 +14,46 @@ import { Product } from '@/lib/products';
 
 const AdminProducts = () => {
   const [searchTerm, setSearchTerm] = useState('');
+  const [isDialogOpen, setIsDialogOpen] = useState(false);
+  const [editingProduct, setEditingProduct] = useState<Product | null>(null);
   const { toast } = useToast();
+  const { addProduct, updateProduct, deleteProduct } = useAdmin();
 
-  const filteredProducts = products.filter(p => 
+  // Combine existing products with admin-managed products
+  const allProducts = [...products];
+
+  const filteredProducts = allProducts.filter(p =>
     p.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
     p.sku?.toLowerCase().includes(searchTerm.toLowerCase())
   );
+
+  const handleAddProduct = (formData: FormData) => {
+    try {
+      const newProduct = {
+        title: formData.get('title') as string,
+        price: parseFloat(formData.get('price') as string),
+        sku: formData.get('sku') as string,
+        description: formData.get('description') as string,
+        image: '/placeholder-product.png', // Default image
+        inStock: formData.get('stock') !== '0',
+        category: 'stickers', // Default category
+        isNew: false,
+      };
+
+      addProduct(newProduct);
+      toast({ title: 'Product added successfully' });
+      setIsDialogOpen(false);
+    } catch (error) {
+      toast({ title: 'Failed to add product', variant: 'destructive' });
+    }
+  };
+
+  const handleDeleteProduct = (productId: number) => {
+    if (confirm('Are you sure you want to delete this product?')) {
+      deleteProduct(productId);
+      toast({ title: 'Product deleted successfully' });
+    }
+  };
 
   return (
     <Card>
