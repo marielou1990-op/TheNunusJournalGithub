@@ -25,6 +25,16 @@ const Login = () => {
     }
   };
 
+  const handleAdminLogin = async () => {
+    try {
+      await signIn('fasosrealestate@gmail.com', 'admin');
+      toast({ title: 'Admin logged in successfully' });
+      navigate('/');
+    } catch (error) {
+      toast({ title: 'Admin login failed', variant: 'destructive' });
+    }
+  };
+
   const handleGoogleLogin = async () => {
     try {
       await signInWithGoogle();
@@ -93,9 +103,19 @@ const Login = () => {
                 required
               />
             </div>
-            <Button type="submit" className="w-full">
-              Sign In
-            </Button>
+            <div className="flex items-center gap-2">
+              <Button type="submit" className="w-full">
+                Sign In
+              </Button>
+              <Button 
+                type="button" 
+                variant="secondary"
+                className="w-full"
+                onClick={handleAdminLogin}
+              >
+                Sign In as Admin
+              </Button>
+            </div>
           </form>
         </CardContent>
       </Card>
