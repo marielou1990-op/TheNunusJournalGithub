@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardFooter } from "@/components/ui/card";
 import { Product } from "@/lib/products";
-import { useCart } from "@/lib/cart-context";
+import { useCart } from "@/hooks/use-cart";
 import { toast } from "sonner";
 
 interface ProductCardProps {

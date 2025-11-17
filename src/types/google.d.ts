@@ -6,7 +6,7 @@ declare global {
           initTokenClient: (config: {
             client_id: string;
             scope: string;
-            callback: (tokenResponse: any) => void;
+            callback: (tokenResponse: TokenResponse) => void;
           }) => {
             requestAccessToken: () => void;
           };
@@ -14,6 +14,14 @@ declare global {
       };
     };
   }
+}
+
+interface TokenResponse {
+  access_token: string;
+  expires_in: number;
+  scope: string;
+  token_type: string;
+  error?: string;
 }
 
 export {};

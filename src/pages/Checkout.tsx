@@ -1,4 +1,5 @@
-import { useCart } from "@/lib/cart-context";
+import { useCart } from "@/hooks/use-cart";
+import { useAdmin } from "@/hooks/use-admin";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -8,11 +9,40 @@ import { toast } from "sonner";
 import { Link, useNavigate } from "react-router-dom";
 
 export default function Checkout() {
-  const { items, totalPrice } = useCart();
+  const { items, totalPrice, clearCart } = useCart();
+  const { addOrder } = useAdmin();
   const navigate = useNavigate();
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
+    const formData = new FormData(e.currentTarget as HTMLFormElement);
+
+    const orderData = {
+      customerName: `${formData.get('firstName')} ${formData.get('lastName')}`,
+      customerEmail: formData.get('email') as string,
+      date: new Date().toISOString().split('T')[0],
+      total: totalPrice + 4.50, // including shipping
+      status: 'pending' as const,
+      items: items.map(({ product, quantity }) => ({
+        productId: product.id,
+        productTitle: product.title,
+        quantity,
+        price: product.price,
+      })),
+      shippingAddress: {
+        firstName: formData.get('firstName') as string,
+        lastName: formData.get('lastName') as string,
+        address: formData.get('address') as string,
+        city: formData.get('city') as string,
+        state: formData.get('state') as string,
+        zip: formData.get('zip') as string,
+        country: formData.get('country') as string,
+      },
+      shippingMethod: formData.get('shipping') as string || 'standard',
+    };
+
+    addOrder(orderData);
+    clearCart();
     toast.success("Order placed! Check your email for confirmation.");
     navigate("/");
   };

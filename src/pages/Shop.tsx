@@ -1,7 +1,7 @@
 import { useState, useMemo } from "react";
 import { useSearchParams } from "react-router-dom";
 import ProductCard from "@/components/ProductCard";
-import { products, categories } from "@/lib/products";
+import { getCurrentCatalog, categories } from "@/lib/products";
 import { Button } from "@/components/ui/button";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 
@@ -11,9 +11,10 @@ export default function Shop() {
   const [selectedCategory, setSelectedCategory] = useState(categoryParam);
   const [sortBy, setSortBy] = useState("featured");
 
+  const catalog = getCurrentCatalog();
+
   const filteredProducts = useMemo(() => {
-    let filtered = products;
-    
+    let filtered = catalog;
     if (selectedCategory !== "All") {
       filtered = filtered.filter(p => p.category === selectedCategory);
     }
@@ -38,7 +39,7 @@ export default function Shop() {
     }
 
     return filtered;
-  }, [selectedCategory, sortBy]);
+  }, [catalog, selectedCategory, sortBy]);
 
   const handleCategoryChange = (category: string) => {
     setSelectedCategory(category);

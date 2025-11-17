@@ -2,7 +2,7 @@ import { Link } from "react-router-dom";
 import { Trash2, ShoppingBag } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { useCart } from "@/lib/cart-context";
+import { useCart } from "@/hooks/use-cart";
 import { toast } from "sonner";
 import { useState } from "react";
 
