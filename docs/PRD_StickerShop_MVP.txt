@@ -1,0 +1,116 @@
+PRD: Sticker Shop MVP (The Nunus Journal) — TXT Document
+
+Document Name: PRD_StickerShop_MVP.txt
+
+1) Overview
+- Product: Online sticker shop selling themed sticker packs and individual stickers.
+- Platform: Web storefront built with React/TypeScript (Next.js) using the existing design system.
+- MVP Constraints: no real payments; product variants deferred to Phase 2; guest checkout allowed with reminders to signup for shipping tracking.
+- Primary objective: Launch a fast, visual storefront with core eCommerce flows: browse, view, add to cart, guest checkout, and order confirmation, plus basic admin visibility.
+
+2) Goals & Success Metrics
+- Goals:
+  - Visually engaging catalog with fast load times.
+  - Frictionless guest checkout with signup prompt for shipping tracking.
+  - Admin visibility into orders, products, and basic analytics.
+  - Data model ready for later variants, inventory, and payments.
+- Success Metrics:
+  - Conversion rate Shop/Product Detail → Checkout.
+  - Cart persistence across sessions.
+  - Orders count and revenue (MVP baseline).
+  - Signups driven by post-purchase prompts.
+  - Time to complete checkout.
+
+3) Scope
+3.1 In Scope (MVP)
+- Catalog with search and basic filters.
+- Product detail with image gallery, description, and Add to cart.
+- Shopping cart with localStorage persistence and quantity updates.
+- Checkout flow for guests with name, email, shipping address; payment is a mock placeholder.
+- Order confirmation with order number and mock receipt.
+- Basic admin views: orders, products, analytics dashboard.
+- Data model: Product, Cart, Order, Customer (guest support; accounts optional later).
+- Signup reminder messaging during checkout without blocking guest.
+
+3.2 Out of Scope / Phase 2
+- Real payments (Stripe etc.).
+- Product variants and variant stock.
+- Inventory sync.
+- Email notifications and marketing automation.
+- Localization beyond English.
+- Advanced admin features.
+
+4) User Flows
+- Browse → product → add to cart → checkout (guest) → order confirmation.
+- Signup prompt post-purchase for shipping tracking; optional account creation later.
+
+5) Guest Checkout & Signup Reminder
+- Messaging:
+  - On checkout success screen: “Create an account to track shipping, save addresses, and view past orders in your dashboard.”
+  - Checkout step: “We’ll email a receipt. Create an account later to link this order to your dashboard.”
+  - Post-checkout banner: “Sign up now to simplify future orders and shipping tracking.”
+- Data for signup: email, name, shipping address optional; password on signup.
+
+6) Data Model (MVP)
+- Product: id, name, description, price, images[], category, tags[], stock, createdAt, updatedAt
+- Cart: id, items: [{ productId, quantity, unitPrice, variantId (optional) }], total, createdAt
+- Order: id, items, total, customer (guest or account), shippingAddress, status, paymentStatus (mock), createdAt, updatedAt
+- Customer: id, name, email, passwordHash, addresses[]
+- Variant (Phase 2): id, productId, sku, options, price, stock
+
+7) UX & Content Guidelines
+- Catalog: Thumbnails, titles, prices, quick view; keyboard accessible
+- Product: Image gallery with lightbox, clear price, stock indicator
+- Checkout: Minimal form with validation; UI mirrors existing components; mock payment
+- Sign-up prompts: concise benefits copy
+- Accessibility: keyboard, alt text, ARIA labels
+- Performance: image optimization, lazy loading
+
+8) Admin & Ops (MVP)
+- Simple orders list, product listing; analytics dashboard
+- Phase 2: inventory alerts, exports
+
+9) Non-Functional
+- Performance: fast loads
+- Reliability: consistent UI
+- Security: client-side validation; mock payments isolated
+- Accessibility & SEO: baseline WCAG 2.1 AA; alt text
+
+10) Risks & Mitigations
+- No real payments: use clear mock messaging
+- Signup adoption: strong post-purchase prompts
+- Variants: Phase 2
+
+11) Milestones & Timeline
+- MVP storefront ready in 2-3 weeks
+- Admin analytics & product mgmt in 2-3 weeks after
+- Mock signup flow & signup-to-dashboard in 2-4 weeks after
+- Phase 2 groundwork later
+
+12) Acceptance Criteria
+- Browse, search, product detail, cart, guest checkout with mock payment
+- Order confirmation with number and receipt
+- Signup prompt post-purchase for shipping tracking
+- Admin view for orders and analytics
+- No real payments active
+
+13) Open Questions
+- Optional vs mandatory signup for flows?
+- Signup incentives
+- MVP catalog size
+- Track shipment view for guests later signing up?
+
+14) Next Steps
+- Confirm MVP scope and signup incentives
+- Define TypeScript data models and sample data
+- Prepare starter catalog (6–12 items)
+- Create shareable TXT PRD
+
+Appendix: Copy Snippets
+- Checkout success: "Create an account to track shipping, save addresses, and view past orders in your dashboard."
+- Checkout step: "We’ll email a receipt. Create an account later to link this order to your dashboard."
+- Post-checkout banner: "Sign up now to simplify future orders and shipping tracking."
+
+Notes
+- English, single-currency storefront; localization and latency considerations to be addressed in Phase 2.
+TXT
