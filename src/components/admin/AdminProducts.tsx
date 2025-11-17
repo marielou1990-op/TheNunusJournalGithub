@@ -7,19 +7,18 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from 
 import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
 import { Plus, Edit, Trash2 } from 'lucide-react';
-import { products } from '@/lib/products';
 import { useToast } from '@/hooks/use-toast';
-import { useAdmin } from '@/lib/admin-context';
+import { useAdmin } from '@/hooks/use-admin';
 import { Product } from '@/lib/products';
 
 const AdminProducts = () => {
   const [searchTerm, setSearchTerm] = useState('');
   const [isDialogOpen, setIsDialogOpen] = useState(false);
-  const [editingProduct, setEditingProduct] = useState<Product | null>(null);
+  const [imagePreview, setImagePreview] = useState<string>('');
   const { toast } = useToast();
-  const { addProduct, updateProduct, deleteProduct } = useAdmin();
+  const { products, addProduct, deleteProduct } = useAdmin();
 
-  // Combine existing products with admin-managed products
+  // Admin-sourced products
   const allProducts = [...products];
 
   const filteredProducts = allProducts.filter(p =>
@@ -27,22 +26,48 @@ const AdminProducts = () => {
     p.sku?.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
+  // Image upload handler
+  const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e?.target?.files?.[0];
+    if (!file) return;
+    const reader = new FileReader();
+    reader.onload = () => setImagePreview(reader.result as string);
+    reader.readAsDataURL(file);
+  };
+
   const handleAddProduct = (formData: FormData) => {
     try {
+      const title = formData.get('title') as string;
+      const description = formData.get('description') as string;
       const newProduct = {
-        title: formData.get('title') as string,
+        title,
         price: parseFloat(formData.get('price') as string),
         sku: formData.get('sku') as string,
-        description: formData.get('description') as string,
-        image: '/placeholder-product.png', // Default image
-        inStock: formData.get('stock') !== '0',
-        category: 'stickers', // Default category
-        isNew: false,
-      };
+        description,
+        shortDescription: description.slice(0, 100) + (description.length > 100 ? '...' : ''),
+        image: imagePreview || '/placeholder-product.png', // Upload preview or placeholder
+        images: [],
+        tags: ['custom'],
+        category: 'Planner Stickers', // Default category
+        inStock: (formData.get('stock') ?? '0') !== '0',
+        stockCount: parseInt(formData.get('stock') as string) || 0,
+        featured: false,
+        bestseller: false,
+        compatibility: ['All Planners'],
+        materials: 'High-quality matte sticker paper',
+        size: 'One sheet',
+        rating: 5.0,
+        reviewCount: 0,
+        stock: parseInt(formData.get('stock') as string) || 0,
+        weight: parseFloat(formData.get('weight') as string) || 0,
+        dimensions: undefined,
+        shippingClass: formData.get('shipping') as string || 'standard',
+      } as Omit<Product, 'id'>;
 
       addProduct(newProduct);
       toast({ title: 'Product added successfully' });
       setIsDialogOpen(false);
+      setImagePreview('');
     } catch (error) {
       toast({ title: 'Failed to add product', variant: 'destructive' });
     }
@@ -58,25 +83,25 @@ const AdminProducts = () => {
   return (
     <Card>
       <CardHeader>
-        <div className="flex justify-between items-center">
+        <div className="container mx-auto px-4 sm:px-6 flex justify-between items-center w-full">
           <div>
             <CardTitle>Products</CardTitle>
             <CardDescription>Manage your product catalog</CardDescription>
           </div>
           <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
             <DialogTrigger asChild>
-              <Button>
-                <Plus className="w-4 h-4 mr-2" />
+              <Button size="lg" className="gap-2">
+                <Plus className="w-4 h-4" />
                 Add Product
               </Button>
             </DialogTrigger>
-            <DialogContent className="max-w-2xl max-h-[90vh] overflow-y-auto">
+            <DialogContent className="max-w-2xl max-h-[90vh] overflow-y-auto p-6">
               <DialogHeader>
-                <DialogTitle>Add New Product</DialogTitle>
+                <DialogTitle>Create Product</DialogTitle>
               </DialogHeader>
               <form onSubmit={(e) => {
                 e.preventDefault();
-                const formData = new FormData(e.currentTarget);
+                const formData = new FormData(e.currentTarget as HTMLFormElement);
                 handleAddProduct(formData);
               }} className="space-y-4">
                 <div className="grid grid-cols-2 gap-4">
@@ -93,6 +118,22 @@ const AdminProducts = () => {
                   <Label htmlFor="description">Description</Label>
                   <Textarea id="description" name="description" placeholder="Product description" rows={4} required />
                 </div>
+                 <div className="mt-4 space-y-2">
+                   <Label>Image Upload</Label>
+                   <div className="flex items-center gap-4">
+                     <Button type="button" variant="outline" onClick={() => document.getElementById('image-upload')?.click()}>
+                       Choose Image
+                     </Button>
+                     <input id="image-upload" type="file" accept="image/*" onChange={handleImageChange} className="hidden" aria-label="Upload product image" />
+                     <span className="text-sm text-muted-foreground">
+                       {imagePreview ? 'Image selected' : 'No image selected'}
+                     </span>
+                   </div>
+                   {imagePreview && (
+                     <img src={imagePreview} alt="Preview" className="w-32 h-32 object-cover rounded-lg border mt-2" />
+                   )}
+                   <div className="text-xs text-muted-foreground">PNG or JPG allowed. You can upload a preview image for the product.</div>
+                 </div>
                 <div className="grid grid-cols-2 gap-4">
                   <div className="space-y-2">
                     <Label htmlFor="price">Price (EUR)</Label>
@@ -115,7 +156,7 @@ const AdminProducts = () => {
                 </div>
                 <div className="flex gap-2">
                   <Button type="submit" className="flex-1">Create Product</Button>
-                  <Button type="button" variant="outline" onClick={() => setIsDialogOpen(false)}>Cancel</Button>
+                  <Button type="button" variant="outline" onClick={() => { setIsDialogOpen(false); setImagePreview(''); }}>Cancel</Button>
                 </div>
               </form>
             </DialogContent>
@@ -154,7 +195,7 @@ const AdminProducts = () => {
                   <TableCell>€{product.price.toFixed(2)}</TableCell>
                   <TableCell>{product.inStock ? 'In Stock' : 'Out of Stock'}</TableCell>
                   <TableCell>
-                    <span className={`px-2 py-1 rounded-full text-xs ${product.inStock ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'}`}>
+                    <span className={`px-2 py-1 rounded-full text-xs ${product.inStock ? 'bg-green-100 text-green-800' : 'bg-gray-100 text-gray-800'}`}>
                       {product.inStock ? 'Active' : 'Inactive'}
                     </span>
                   </TableCell>

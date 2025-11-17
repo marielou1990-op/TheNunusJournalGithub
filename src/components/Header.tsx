@@ -1,8 +1,8 @@
 import { Link } from "react-router-dom";
 import { ShoppingCart, Menu, User } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { useCart } from "@/lib/cart-context";
-import { useAuth } from "@/lib/auth-context";
+import { useCart } from "@/hooks/use-cart";
+import { useAuth } from "@/hooks/use-auth";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { useState } from "react";
 
