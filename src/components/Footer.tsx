@@ -1,18 +1,8 @@
 import { Link } from "react-router-dom";
 import { Youtube, Instagram } from "lucide-react";
-import { Input } from "@/components/ui/input";
-import { Button } from "@/components/ui/button";
-import { toast } from "sonner";
+import NewsletterSignup from "./NewsletterSignup";
 
 export default function Footer() {
-  const handleNewsletterSignup = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    const formData = new FormData(e.currentTarget);
-    const email = formData.get('email');
-    toast.success(`Thanks for subscribing! Check ${email} for your 10% off code.`);
-    e.currentTarget.reset();
-  };
-
   return (
     <footer className="bg-card border-t mt-20">
       <div className="container py-12 md:py-16">
@@ -52,20 +42,7 @@ export default function Footer() {
           </div>
 
           <div>
-            <h4 className="font-display font-semibold mb-4">Newsletter</h4>
-            <p className="text-sm text-muted-foreground mb-4">Get 10% off your first order!</p>
-            <form onSubmit={handleNewsletterSignup} className="flex gap-2">
-              <Input
-                type="email"
-                name="email"
-                placeholder="Your email"
-                required
-                className="text-sm"
-              />
-              <Button type="submit" size="sm">
-                Join
-              </Button>
-            </form>
+            <NewsletterSignup />
           </div>
         </div>
 

@@ -18,6 +18,8 @@ import About from "./pages/About";
 import Login from "./pages/Login";
 import Account from "./pages/Account";
 import Admin from "./pages/Admin";
+import ResetPassword from "./pages/ResetPassword";
+import ForgotPassword from "./pages/ForgotPassword";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -40,10 +42,12 @@ const App = () => (
                     <Route path="/cart" element={<Cart />} />
                     <Route path="/checkout" element={<Checkout />} />
                     <Route path="/about" element={<About />} />
-                    <Route path="/login" element={<Login />} />
-                    <Route path="/account" element={<Account />} />
-                    <Route path="/admin" element={<Admin />} />
-                    <Route path="*" element={<NotFound />} />
+                     <Route path="/login" element={<Login />} />
+                     <Route path="/account" element={<Account />} />
+                     <Route path="/forgot-password" element={<ForgotPassword />} />
+                     <Route path="/reset-password" element={<ResetPassword />} />
+                     <Route path="/admin" element={<Admin />} />
+                     <Route path="*" element={<NotFound />} />
                   </Routes>
                 </main>
                 <Footer />
