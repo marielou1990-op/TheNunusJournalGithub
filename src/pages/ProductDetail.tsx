@@ -1,5 +1,5 @@
 import { useParams, Link } from "react-router-dom";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { getCurrentCatalog, Product as ProductType } from "@/lib/products";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -15,6 +15,11 @@ const ProductDetail: React.FC = () => {
 
   const [quantity, setQuantity] = useState<number>(1);
   const { addToCart } = useCart();
+
+  // Reset quantity to 1 when product changes
+  useEffect(() => {
+    setQuantity(1);
+  }, [id]);
 
   const variants = product?.variants ?? [];
   const [selectedVariant, setSelectedVariant] = useState<string>(variants.length ? variants[0].id : "");

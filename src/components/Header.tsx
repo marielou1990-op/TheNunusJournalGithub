@@ -21,16 +21,16 @@ export default function Header() {
     <header className="sticky top-0 z-50 w-full border-b bg-card/95 backdrop-blur supports-[backdrop-filter]:bg-card/80">
       <div className="container flex h-16 items-center justify-between">
         <div className="flex items-center gap-6">
-          <Link to="/" className="flex items-center space-x-2">
+          <Link to="/" className="flex items-center space-x-2 transition-transform duration-200 hover:scale-105">
             <span className="text-2xl font-display font-bold text-primary">TheNunuJournals</span>
           </Link>
-          
+
           <nav className="hidden md:flex gap-6">
             {navigation.map((item) => (
               <Link
                 key={item.name}
                 to={item.href}
-                className="text-sm font-medium text-foreground/80 hover:text-primary transition-colors"
+                className="text-sm font-medium text-foreground/80 hover:text-primary transition-all duration-200 hover:scale-105"
               >
                 {item.name}
               </Link>

@@ -108,21 +108,51 @@ All colors MUST be HSL.
   .text-balance {
     text-wrap: balance;
   }
-  
+
   .animate-float {
     animation: float 3s ease-in-out infinite;
   }
-  
+
   @keyframes float {
     0%, 100% { transform: translateY(0); }
     50% { transform: translateY(-10px); }
   }
-  
+
   .shadow-soft {
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
   }
-  
+
   .shadow-card {
     box-shadow: 0 2px 12px rgba(0, 0, 0, 0.06);
+  }
+
+  /* Subtle transitions for smooth interactions */
+  .transition-smooth {
+    transition: all 0.2s ease-in-out;
+  }
+
+  .transition-colors {
+    transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out, border-color 0.15s ease-in-out;
+  }
+
+  .transition-transform {
+    transition: transform 0.15s ease-in-out;
+  }
+
+  .transition-opacity {
+    transition: opacity 0.15s ease-in-out;
+  }
+
+  /* Interactive element enhancements */
+  .interactive-scale {
+    transition: transform 0.15s ease-in-out;
+  }
+
+  .interactive-scale:hover {
+    transform: scale(1.02);
+  }
+
+  .interactive-scale:active {
+    transform: scale(0.98);
   }
 }
